@@ -1,24 +1,46 @@
+import 'mobx-react-lite/batchingForReactDom'
 import React, { useContext } from 'react';
 import './App.css';
 import { UserStore } from './UserStore';
-import { useObserver } from 'mobx-react-lite';
+import { useObserver, Observer, useLocalStore } from 'mobx-react-lite';
 
-const userContext = React.createContext(new UserStore());
+
+//const userContext = React.createContext(new UserStore());
 
 function App() {
 
-  const userStore = useContext(userContext) as UserStore;
+  //const userStore = useContext(userContext) as UserStore;
+
+  const userStore =  useLocalStore(() => ({
+    status: "pending...",
+    getAll() {
+      this.status = "doneee"
+    },
+  }))
 
   console.log("render");
 
+  function handleClick() {
+    userStore.getAll();
+  }
+
   return useObserver(() =>(
-      <div className="App">
-        <button onClick={() => userStore.getAll()}>Get All</button>
-        <p>Cantidad {userStore.users.length}</p>
-        <p>Status {userStore.status}</p>
-      </div>
-    )
-  );
+    <div className="App">
+      <button onClick={handleClick}>Get All</button>
+      {/* <p>Cantidad {userStore.users.length}</p> */}
+    <p>Status {userStore.status}</p>
+    </div>
+  )
+);
+
+  // return useObserver(() =>(
+  //     <div className="App">
+  //       <button onClick={handleClick}>Get All</button>
+  //       {/* <p>Cantidad {userStore.users.length}</p> */}
+  //       <p>Status {userStore.status}</p>
+  //     </div>
+  //   )
+  // );
 
 }
 
