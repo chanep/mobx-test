@@ -17,7 +17,7 @@ const useUsers = () => {
   useEffect(() => {
     (new ApiClient()).getUsers()
     .then(u => setUsers(u))
-  });
+  }, []);
   return users;
 }
 
@@ -27,6 +27,11 @@ const UsersDropDown = () =>{
   return (
     <DropDown values={values}></DropDown>
   )
+}
+
+const UsersProvider = (props: { children: (users: User[]) => any; }) => {
+  const users = useUsers();
+  return (props.children(users));
 }
 
 function App() {
@@ -58,8 +63,19 @@ function App() {
        <p>Cantidad {userStore.users.length}</p>
       <p>Status {userStore.status}</p>
       <button onClick={searchProduct}>Search Product</button>
-      <UsersDropDown></UsersDropDown>
-
+      <div>
+        UserDropDown <UsersDropDown></UsersDropDown>
+      </div>
+      <div>
+        UserProvider
+        <UsersProvider>
+          {(users) => {
+              const values = users.map(u => ({key: u.dni.toString(), value: u.name}));
+              return <DropDown values={values}></DropDown> 
+            }
+          }
+        </UsersProvider>
+      </div>
     </div>
   )
 );
