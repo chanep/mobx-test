@@ -1,6 +1,6 @@
 import 'mobx-react-lite/batchingForReactDom'
 import React, { useContext, useState, useEffect } from 'react';
-import './App.css';
+import './index.css';
 import { UserStore } from './UserStore';
 import { useObserver, Observer, useLocalStore } from 'mobx-react-lite';
 import ProductStore from './ProductStore';
@@ -60,7 +60,7 @@ function App() {
   return useObserver(() =>(
     <div className="App">
       <button onClick={handleClick}>Get All</button>
-       <p>Cantidad {userStore.users.length}</p>
+       <p className="text-xl">Cantidad {userStore.users.length}</p>
       <p>Status {userStore.status}</p>
       <button onClick={searchProduct}>Search Product</button>
       <div>
