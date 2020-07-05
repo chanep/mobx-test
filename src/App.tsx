@@ -58,23 +58,25 @@ function App() {
   }
 
   return useObserver(() =>(
-    <div className="App">
-      <button onClick={handleClick}>Get All</button>
-       <p className="text-xl">Cantidad {userStore.users.length}</p>
-      <p>Status {userStore.status}</p>
-      <button onClick={searchProduct}>Search Product</button>
+    <div id="root" className="flex justify-center">
       <div>
-        UserDropDown <UsersDropDown></UsersDropDown>
-      </div>
-      <div>
-        UserProvider
-        <UsersProvider>
-          {(users) => {
-              const values = users.map(u => ({key: u.dni.toString(), value: u.name}));
-              return <DropDown values={values}></DropDown> 
+        <button onClick={handleClick}>Get All</button>
+        <p className="text-xl">Cantidad {userStore.users.length}</p>
+        <p>Status {userStore.status}</p>
+        <button className="btn bg-blue-400" onClick={searchProduct}>Search Product</button>
+        <div>
+          UserDropDown <UsersDropDown></UsersDropDown>
+        </div>
+        <div>
+          UserProvider
+          <UsersProvider>
+            {(users) => {
+                const values = users.map(u => ({key: u.dni.toString(), value: u.name}));
+                return <DropDown values={values}></DropDown> 
+              }
             }
-          }
-        </UsersProvider>
+          </UsersProvider>
+        </div>
       </div>
     </div>
   )
